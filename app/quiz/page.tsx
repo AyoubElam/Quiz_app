@@ -19,6 +19,10 @@ const Page = () => {
   const { questions } = quiz;
   const { question, answers, correctAnswer } = questions[activeQuestion];
 
+  function idk(value: string, index: number, array: string[]): ReactNode {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="container">
       <h1>Quiz Page</h1>
@@ -32,6 +36,11 @@ const Page = () => {
         {!showResult ? (
           <div className="quiz-container">
             <h3>{questions[activeQuestion].question}</h3>
+              {answers.map((answer, index) => (
+                <li key={index}>
+                  <span>{answer}</span>
+                </li>
+              ))}
           </div>
         ) : (
           <div className="quiz-container"></div>
