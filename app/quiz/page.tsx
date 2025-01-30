@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { quiz } from "./data";
 
 const Page = () => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [checked, setChecked] = useState(false);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [result, setResult] = useState({
     score: 0,
@@ -19,9 +19,12 @@ const Page = () => {
   const { questions } = quiz;
   const { question, answers, correctAnswer } = questions[activeQuestion];
 
-  function idk(value: string, index: number, array: string[]): ReactNode {
-    throw new Error("Function not implemented.");
-  }
+  // select and check answer
+  const onAnswerSelected = (answer: string, index: number) => {
+    setChecked(true);
+    setSelectedAnswerIndex(index);
+    setSelectedAnswer(answer);
+  };
 
   return (
     <div className="container">
@@ -36,11 +39,17 @@ const Page = () => {
         {!showResult ? (
           <div className="quiz-container">
             <h3>{questions[activeQuestion].question}</h3>
+            <ul>
               {answers.map((answer, index) => (
-                <li key={index}>
+                <li 
+                  key={index}
+                  onClick={() => onAnswerSelected(answer, index)}
+                  className={selectedAnswerIndex === index ? 'li-selected' : 'li-hover'}
+                >
                   <span>{answer}</span>
                 </li>
               ))}
+            </ul>
           </div>
         ) : (
           <div className="quiz-container"></div>
